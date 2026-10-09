@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Print Platform Guide: Story, Process and Situations</title>
+<meta name="description" content="A simple guide to the Digital Print Shop Platform with a story, 53 diagrams, and an everyday situation for each.">
+<style>
+:root{--bg:#fbf9f4;--fg:#2b2620;--mut:#5f574b;--card:#fffdf8;--bd:#e0d8c6;--ac:#5c4b2e;--proc:#f4efe4;--sit:#fbf0d9;--sitb:#e3d3a6;--topbg:#4a3d26}
+@media (prefers-color-scheme:dark){:root{--bg:#181a1d;--fg:#eceae4;--mut:#aaa69c;--card:#1f2226;--bd:#33373d;--ac:#e0bd78;--proc:#262a30;--sit:#2d2a22;--sitb:#4a432f;--topbg:#26292e}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+.top{position:sticky;top:0;z-index:50;height:56px;background:var(--topbg);color:#fff;display:flex;align-items:center;gap:12px;padding:0 16px}
+.top h1{font-size:1.15rem;margin:0;line-height:1.2}
+.menu-btn{background:rgba(255,255,255,.15);border:0;color:#fff;width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.layout{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:24px;padding:0 16px}
+.layout.collapsed{grid-template-columns:minmax(0,1fr)}
+.layout.collapsed .toc{display:none}
+.w{max-width:900px;margin:0 auto;padding:0}
+main{padding:20px 0 56px;min-width:0}
+.toc{position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;padding:16px 8px 24px 0;border-right:1px solid var(--bd);font-size:.88rem}
+.toc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;font-size:.8rem;color:var(--mut)}
+.toc-close{display:none;background:none;border:1px solid var(--bd);color:var(--fg);width:30px;height:30px;border-radius:6px;font-size:1.2rem;cursor:pointer}
+.tg{margin-bottom:14px}
+.tg>a{display:block;font-weight:700;color:var(--fg);text-decoration:none;padding:4px 8px;border-radius:6px}
+.tg ul{list-style:none;margin:2px 0 0 8px;padding:0 0 0 8px;border-left:1px solid var(--bd)}
+.tg li{margin:0}
+.tg li a{display:block;color:var(--mut);text-decoration:none;padding:3px 8px;border-radius:6px;line-height:1.4}
+.tg a:hover{color:var(--ac)}
+.toc a.active{background:var(--proc);color:var(--ac);font-weight:600}
+.backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90}
+.backdrop.on{display:block}
+@media (max-width:1000px){
+ .layout,.layout.collapsed{grid-template-columns:minmax(0,1fr);padding:0 12px}
+ .toc,.layout.collapsed .toc{display:block;position:fixed;top:0;left:0;bottom:0;height:100%;width:310px;max-width:86vw;background:var(--card);z-index:100;padding:16px;transform:translateX(-100%);transition:transform .25s;box-shadow:0 0 30px rgba(0,0,0,.3)}
+ .toc.open{transform:none}
+ .toc-close{display:block}
+}
+h2{font-size:1.3rem;margin:0 0 4px}
+h3{font-size:1.05rem;line-height:1.35;margin:0 0 12px;display:flex;gap:10px;align-items:flex-start}
+h4{margin:0 0 4px;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+p{margin:.4em 0}
+.muted,.hint{color:var(--mut)}
+.hint{font-size:.8rem;margin:0 0 6px}
+.panel,.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:16px 0}
+.part{margin-top:36px}
+.num{flex:none;min-width:34px;height:34px;border-radius:50%;background:var(--topbg);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:600}
+.box{border-radius:8px;padding:10px 14px;margin:10px 0}
+.proc{background:var(--proc)}
+.sit{background:var(--sit);border:1px solid var(--sitb)}
+.scroll{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;border:1px solid var(--bd);border-radius:8px;padding:8px;background:var(--card)}
+.mermaid{margin:0;text-align:center}
+.mermaid svg{height:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd);vertical-align:top}
+th{color:var(--mut);font-weight:600}
+.tw{overflow-x:auto}
+a{color:var(--ac)}
+ol,ul{padding-left:20px;margin:.4em 0}
+li{margin:.3em 0}
+details{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:16px 0}
+summary{cursor:pointer;font-weight:600}
+nav ol{columns:1}
+.note{font-size:.9rem;color:var(--mut)}
+footer{border-top:1px solid var(--bd);padding:20px 0;color:var(--mut);font-size:.85rem}
+@media print{
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ :root{--bg:#fff;--fg:#000;--mut:#333;--card:#fff;--bd:#999;--proc:#f4f2ec;--sit:#eceae2;--sitb:#777}
+ .top,.toc,.backdrop,.hint{display:none!important}
+ .layout{display:block;padding:0}
+ .scroll{overflow:visible;border-color:#999}
+ .card{break-inside:avoid;page-break-inside:avoid}
+ .part{break-before:page}
+ .mermaid svg{max-width:100%}
+}
+</style></head><body>
+<header class="top"><button id="menu-btn" class="menu-btn" aria-label="Open or close contents" aria-controls="toc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button><h1>Print Platform Guide</h1></header>
+<div id="backdrop" class="backdrop"></div>
+<div class="layout" id="layout">
+<aside class="toc" id="toc" aria-label="Contents"><div class="toc-head"><b>Contents</b><button id="toc-close" class="toc-close" aria-label="Close contents">&times;</button></div><nav><div class="tg"><a href="#overview">Introduction</a><ul><li><a href="#overview">What are we building?</a></li><li><a href="#howto">How to read this page</a></li><li><a href="#story">The story</a></li><li><a href="#words">Simple words</a></li><li><a href="#versions">Version plan</a></li></ul></div><div class="tg"><a href="#p0">Part 1: The big picture</a><ul><li><a href="#d39">39. System context</a></li><li><a href="#d1">1. Product ecosystem</a></li><li><a href="#d13">13. Stakeholder map</a></li><li><a href="#d40">40. End-to-end business process</a></li><li><a href="#d2">2. Customer journey: walk-in and remote</a></li></ul></div><div class="tg"><a href="#p1">Part 2: Orders and money</a><ul><li><a href="#d41">41. Order creation flow</a></li><li><a href="#d42">42. Document upload and storage</a></li><li><a href="#d3">3. Order lifecycle state machine</a></li><li><a href="#d4">4. Payment flow with idempotent webhooks</a></li><li><a href="#d31">31. Payment reconciliation</a></li><li><a href="#d5">5. Approval flow</a></li></ul></div><div class="tg"><a href="#p2">Part 3: Running the shop</a><ul><li><a href="#d17">17. Multi-tenancy</a></li><li><a href="#d18">18. Authentication and RBAC</a></li><li><a href="#d49">49. Staff permission model</a></li><li><a href="#d14">14. Merchant and staff workflow</a></li><li><a href="#d36">36. Merchant application architecture</a></li><li><a href="#d47">47. Resource management</a></li><li><a href="#d21">21. Printer capability and resource model</a></li></ul></div><div class="tg"><a href="#p3">Part 4: Printing on the shop PC</a><ul><li><a href="#d6">6. Print Station architecture (cloud vs local)</a></li><li><a href="#d7">7. Print Station pairing</a></li><li><a href="#d53">53. File delivery and prefetch (keeping it fast)</a></li><li><a href="#d19">19. Print queue and cloud-to-Print-Station communication</a></li><li><a href="#d20">20. Print Station heartbeat</a></li><li><a href="#d33">33. Print Station to OS print queue to printer</a></li><li><a href="#d46">46. Printer communication</a></li><li><a href="#d8">8. Printer state machine</a></li></ul></div><div class="tg"><a href="#p4">Part 5: Smart decisions</a><ul><li><a href="#d9">9. Smart routing</a></li><li><a href="#d32">32. Routing decision tree</a></li><li><a href="#d10">10. ETA calculation and update</a></li><li><a href="#d11">11. Priority Service and upgrade</a></li><li><a href="#d50">50. Priority edge case: route disappears</a></li></ul></div><div class="tg"><a href="#p5">Part 6: The physical world</a><ul><li><a href="#d12">12. Physical verification and printer failure</a></li><li><a href="#d34">34. Partial print recovery and reassignment</a></li><li><a href="#d22">22. Job separation: eco separator and acknowledgement</a></li></ul></div><div class="tg"><a href="#p6">Part 7: Pickup and updates</a><ul><li><a href="#d43">43. Pickup lifecycle</a></li><li><a href="#d44">44. Customer status flow</a></li><li><a href="#d23">23. Notifications and real-time updates</a></li><li><a href="#d45">45. WebSocket and push flow</a></li><li><a href="#d25">25. Audit logging and secure pickup</a></li></ul></div><div class="tg"><a href="#p7">Part 8: Platform and security</a><ul><li><a href="#d15">15. High-level and backend architecture</a></li><li><a href="#d16">16. Frontend applications</a></li><li><a href="#d35">35. Customer application architecture</a></li><li><a href="#d37">37. Golden Admin architecture</a></li><li><a href="#d28">28. Golden Admin operations</a></li><li><a href="#d38">38. Observability</a></li><li><a href="#d24">24. Document security and lifecycle</a></li><li><a href="#d48">48. Document access control</a></li></ul></div><div class="tg"><a href="#p8">Part 9: Money model and future</a><ul><li><a href="#d26">26. Subscription, monetization and priority fee flow</a></li><li><a href="#d27">27. Analytics, financial dashboard and staff activity</a></li><li><a href="#d29">29. Future: multi-service orders</a></li><li><a href="#d30">30. Future: marketplace, API, institutions, delivery</a></li><li><a href="#d51">51. Future: resource orchestration</a></li><li><a href="#d52">52. Future: external API and institutional integration</a></li></ul></div></nav></aside>
+<main><div class="w">
+
+<div class="panel" id="overview"><h2>What are we building?</h2>
+<p>A system that lets a customer upload a document, pay, and walk away. They come back only when the printed pages are ready. The shop gets an organized queue instead of messages on WhatsApp.</p>
+<p><b>The one idea to remember:</b> the platform is a bridge between digital customer orders and the physical work of a print shop.</p></div>
+
+<details open id="howto"><summary>How to read this page</summary>
+<ol><li>Read the story and meet the people below.</li><li>Open any diagram. Each one has two boxes: <b>Process</b> (what happens) and <b>Situation</b> (the same thing as a real day in the shop).</li><li>Items marked <b>FUTURE</b> are not in the first version. <b>TBD</b> means not decided yet.</li></ol></details>
+
+<div class="panel" id="story"><h2>The story: a day at Hemadri Xerox</h2>
+<p>Hemadri Xerox is a busy print shop near a college. Every afternoon the queue reaches the door. Customers shout their names, send files on WhatsApp, and ask "Is it ready?" again and again. Hemadri decides to try a platform that fixes this.</p>
+<div class="tw"><table><thead><tr><th>Person</th><th>Role</th><th>What they do</th></tr></thead><tbody>
+<tr><td><b>Hemadri</b></td><td>Owner</td><td>Owns the shop, printers and money. Sets prices and rules.</td></tr>
+<tr><td><b>Chandramohan</b></td><td>Manager</td><td>Approves big orders, handles refunds, watches the queue.</td></tr>
+<tr><td><b>Sai</b></td><td>Operator</td><td>Looks after Printer A (black and white, fast).</td></tr>
+<tr><td><b>Satwik</b></td><td>Operator</td><td>Looks after Printer B (color and A3). Checks printed pages.</td></tr>
+<tr><td><b>Anil</b></td><td>Pickup desk</td><td>Checks the pickup code and hands over papers.</td></tr>
+<tr><td><b>Chaitanya</b></td><td>Cashier</td><td>Creates orders for walk-in customers who pay cash.</td></tr>
+<tr><td><b>Rahul, Sandeep UI, NagaTeja</b></td><td>Customers</td><td>Students who need prints. NagaTeja orders from his hostel.</td></tr>
+</tbody></table></div>
+<h3 style="margin-top:16px">Their day, in ten steps</h3>
+<ol>
+<li><b>Morning set-up.</b> Hemadri opens the <b>Print Station</b> page on the shop PC and enters a one-time code. He adds Printer A and Printer B and tells the system what each can do.</li>
+<li><b>Rahul arrives.</b> He scans a QR code, uploads his assignment, names it "College Assignment", and picks his options.</li>
+<li><b>Price and time.</b> He sees ₹24 and "about 8 to 10 minutes", then pays by UPI.</li>
+<li><b>Approval.</b> Small jobs print automatically. A very large one waits for Chandramohan.</li>
+<li><b>Choosing a printer.</b> The system picks the best printer that can do the job.</li>
+<li><b>Printing.</b> The job reaches the shop PC and prints on Sai's printer.</li>
+<li><b>Checking.</b> Satwik looks at the pages. Only then does the order become "Ready".</li>
+<li><b>Notification.</b> Rahul gets a message with a pickup code.</li>
+<li><b>Pickup.</b> He shows the code. Anil verifies it and hands over the papers.</li>
+<li><b>Closing.</b> Hemadri checks the day's sales, and the platform team checks that every shop ran smoothly.</li></ol></div>
+
+<div class="panel" id="words"><h2>Simple words used here</h2>
+<div class="tw"><table><tbody>
+<tr><td><b>Merchant / Shop</b></td><td>Merchant is the business owner (Hemadri). Shop is one location. One merchant can have many shops.</td></tr>
+<tr><td><b>Resource</b></td><td>Any machine that does work, for now a printer.</td></tr>
+<tr><td><b>Print Station</b></td><td>A web page open on the shop PC. It receives jobs from the cloud and sends them to the printer. Nothing to install.</td></tr>
+<tr><td><b>Cloud</b></td><td>The online part that decides what to print and where.</td></tr>
+<tr><td><b>ETA</b></td><td>Estimated time until the order is ready. Shown as a range, because it is an estimate.</td></tr>
+<tr><td><b>Priority</b></td><td>A paid option for a faster slot. Offered only when it really saves time.</td></tr>
+<tr><td><b>Physical verification</b></td><td>A person checks the printed pages before the order is called Ready.</td></tr>
+<tr><td><b>OTP / QR</b></td><td>A short code or picture the customer shows at pickup.</td></tr>
+<tr><td><b>Webhook</b></td><td>A message the payment app sends to us when money arrives.</td></tr>
+<tr><td><b>Idempotency</b></td><td>Doing the same request twice has the same result as doing it once. No double orders.</td></tr>
+<tr><td><b>Reconciliation</b></td><td>A night-time check that payments and orders match.</td></tr>
+<tr><td><b>Audit log</b></td><td>A diary of who did what and when.</td></tr>
+</tbody></table></div></div>
+
+<div class="panel" id="versions"><h2>Version plan at a glance</h2>
+<div class="tw"><table><thead><tr><th>Version</th><th>Goal</th></tr></thead><tbody>
+<tr><td><b>V0</b></td><td>Check the idea with real shops and test printing on real shop PCs.</td></tr>
+<tr><td><b>V1</b></td><td>One shop, one working loop: upload, pay, leave, ready, pickup.</td></tr>
+<tr><td><b>V2</b></td><td>A busy shop: many printers, approvals, staff roles, failure recovery.</td></tr>
+<tr><td><b>V3</b></td><td>Earn money: Priority, subscriptions, mobile apps.</td></tr>
+<tr><td><b>V4</b></td><td>Grow: many shops per owner, more services, partner access.</td></tr>
+<tr><td><b>V5+</b></td><td>Marketplace, delivery, institutions.</td></tr>
+</tbody></table></div>
+<p class="note">Open decisions such as prices, fee split and retention period are not final.</p></div>
+
+<section class="part" id="p0"><h2>Part 1: The big picture</h2><p class="muted">Start here. Who is involved and how one order travels.</p><article class="card" id="d39"><h3><span class="num">39</span>System context</h3>
+<div class="box proc"><h4>Process</h4><p>The platform as one box, with everything outside it.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+CU["Customers"] --&gt; P(("Print Platform"))
+MR["Merchants and staff"] --&gt; P
+AD["Platform admins"] --&gt; P
+P &lt;--&gt; PG["Payment gateway"]
+P --&gt; NP["Notification providers"]
+P &lt;--&gt; AG["Print Stations and printers at shops"]
+P &lt;--&gt; ST["Object storage"]
+EX["External apps via API: FUTURE"] -.-&gt; P</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul needs his assignment printed at Hemadri Xerox. Rahul, the shop team, the payment app and the printers all meet at one platform. Think of it as the shop's front desk, moved online.</p></div></article><article class="card" id="d1"><h3><span class="num">1</span>Product ecosystem</h3>
+<div class="box proc"><h4>Process</h4><p>Who touches the platform and how they connect. Customers never reach printers directly.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+subgraph CUST["Customer"]
+ C1["Customer Web via Shop QR"]
+ C2["Customer Mobile"]
+end
+subgraph MERCH["Merchant"]
+ M1["Merchant Web / Mobile"]
+ M2["Owner and Staff"]
+end
+subgraph CLOUD["Platform Cloud"]
+ API["Platform API"]
+ BL["Orders, Payments, Routing, ETA, Notifications"]
+ DB[("PostgreSQL")]
+ Q[("Redis / BullMQ")]
+ S[("Object Storage")]
+end
+subgraph ADMIN["Platform Admin"]
+ GA["Golden Admin"]
+end
+subgraph LOCAL["Shop Local Infrastructure"]
+ PA["Web Print Station (browser on shop PC)"]
+ SP["OS print queue (Windows spooler)"]
+ PR["Printers"]
+end
+C1 --&gt; API
+C2 --&gt; API
+M1 --&gt; API
+M2 --&gt; M1
+GA --&gt; API
+API --&gt; BL
+BL --&gt; DB
+BL --&gt; Q
+BL --&gt; S
+Q --&gt; PA
+PA --&gt; SP --&gt; PR</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Chandramohan checks the queue on his dashboard, Rahul orders from his phone, and Sai's printer sits on the shop PC. Nobody talks to a printer directly. Every order goes through the platform first, like every customer going through the counter.</p></div></article><article class="card" id="d13"><h3><span class="num">13</span>Stakeholder map</h3>
+<div class="box proc"><h4>Process</h4><p>Who is involved and what each one cares about.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+CU["Customer: no waiting, clear ETA, safe pickup"] --- PL(("Platform"))
+OW["Merchant owner: revenue, control of printers"] --- PL
+ST["Staff: clear tasks, accountability"] --- PL
+AD["Golden Admin team: health, support, audit"] --- PL
+PL --- AG["Print Station and printers: physical output"]
+PL -.-&gt;|"FUTURE"| IN["Institutions and API partners"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul wants no waiting. Hemadri wants steady income and control of his machines. Chandramohan wants fewer arguments at the counter. Sai and Satwik want clear jobs. Everyone wants something different from the same product.</p></div></article><article class="card" id="d40"><h3><span class="num">40</span>End-to-end business process</h3>
+<div class="box proc"><h4>Process</h4><p>The whole story from the customer's need to a collected order, with who acts at each step.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><p class="hint"><b>Shading key:</b> plain light = Customer, solid grey = Platform, dashed border = Shop and Staff, dotted border = Print Station.</p><div class="scroll"><pre class="mermaid">flowchart TD
+A["Customer: upload, configure, see price and ETA"] --&gt; B["Customer: pay"]
+B --&gt; C["Platform: verify payment, apply approval rules"]
+C --&gt; D["Shop: approve if needed"]
+D --&gt; E["Platform: route to resource, queue"]
+E --&gt; F["Print Station and printer: print"]
+F --&gt; G["Staff: physical verification"]
+G --&gt; H["Platform: notify customer, send OTP"]
+H --&gt; I["Customer: arrives, shows OTP or QR"]
+I --&gt; J["Staff: verify and hand over"]
+J --&gt; K["Platform: COLLECTED, update revenue and analytics"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>4:10 pm: Rahul uploads and pays. Chandramohan approves a big order. Sai prints it. Satwik checks the pages. At 4:25 Anil hands it over after Rahul shows his code. The day's sales update by themselves.</p></div></article><article class="card" id="d2"><h3><span class="num">2</span>Customer journey: walk-in and remote</h3>
+<div class="box proc"><h4>Process</h4><p>Both modes share one pipeline. Only the entry point differs. The customer comes back only when the order is ready.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+W["Walk-in: scan Shop QR"] --&gt; U["Upload and label document"]
+R["Remote: open platform, pick shop"] --&gt; U
+U --&gt; CF["Configure options the shop supports"]
+CF --&gt; PV["Smart preview: price and ETA range"]
+PV --&gt; PAY["Pay"]
+PAY --&gt; TR["Track progress"]
+TR --&gt; RDY["Ready notification"]
+RDY --&gt; OTP["Show OTP or QR at shop"]
+OTP --&gt; COL["Collected"]
+R -.-&gt;|"FUTURE"| ATS["I am at the shop button"]
+ATS -.-&gt; OTP</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Sandeep UI scans the QR while standing in the queue, then walks to the tea stall. His friend NagaTeja orders from his hostel and arrives only when told. The steps are the same. Only the starting place differs.</p></div></article></section><section class="part" id="p1"><h2>Part 2: Orders and money</h2><p class="muted">What happens from upload to payment, and how mistakes are caught.</p><article class="card" id="d41"><h3><span class="num">41</span>Order creation flow</h3>
+<div class="box proc"><h4>Process</h4><p>Validate before payment so unsupported orders are rejected early. Retries must not create duplicate orders.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">sequenceDiagram
+participant C as Customer
+participant API as Platform API
+participant DB as Database
+C-&gt;&gt;API: Create order, idempotency key
+API-&gt;&gt;DB: Order CREATED, or return existing one
+C-&gt;&gt;API: Upload document and label
+C-&gt;&gt;API: Select options
+API-&gt;&gt;API: Check options against shop capabilities
+API--&gt;&gt;C: Price and ETA range
+C-&gt;&gt;API: Confirm, go to payment
+API-&gt;&gt;DB: PAYMENT_PENDING</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul taps Create Order twice because his network is slow. The platform sees the same request and keeps one order, not two. His choices are also checked against what Hemadri's printers can really do.</p></div></article><article class="card" id="d42"><h3><span class="num">42</span>Document upload and storage</h3>
+<div class="box proc"><h4>Process</h4><p>The original file is never modified. The label is only metadata.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+U["Customer picks file"] --&gt; V{"Type and size allowed?"}
+V --&gt;|"No"| RJ["Reject before payment"]
+V --&gt;|"Yes"| ST[("Encrypted object storage, original unchanged")]
+ST --&gt; MT["Metadata in DB: label, page count, owner, shop, expiry"]
+MT --&gt; PRV["Page count feeds price and ETA"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul's file is called IMG_7823.pdf. He labels it 'College Assignment'. The shop sees his label, but the file itself is stored untouched and encrypted. A 300 MB video is refused before he pays.</p></div></article><article class="card" id="d3"><h3><span class="num">3</span>Order lifecycle state machine</h3>
+<div class="box proc"><h4>Process</h4><p>Payment, approval and printing are separate states. The ERROR path always goes through physical verification.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">stateDiagram-v2
+[*] --&gt; CREATED
+CREATED --&gt; UPLOADED
+UPLOADED --&gt; CONFIGURED
+CONFIGURED --&gt; PAYMENT_PENDING
+PAYMENT_PENDING --&gt; PAID
+PAID --&gt; AWAITING_APPROVAL: manual or rule-triggered
+PAID --&gt; APPROVED: auto print
+AWAITING_APPROVAL --&gt; APPROVED
+AWAITING_APPROVAL --&gt; CANCELLED: rejected, refund
+APPROVED --&gt; QUEUED
+QUEUED --&gt; RESOURCE_ASSIGNED
+RESOURCE_ASSIGNED --&gt; PRINTING
+PRINTING --&gt; PRINT_COMPLETED
+PRINTING --&gt; ERROR
+ERROR --&gt; PHYSICAL_VERIFICATION
+PRINT_COMPLETED --&gt; PHYSICAL_VERIFICATION
+PHYSICAL_VERIFICATION --&gt; READY_FOR_PICKUP
+PHYSICAL_VERIFICATION --&gt; QUEUED: retry or reassign
+PHYSICAL_VERIFICATION --&gt; CANCELLED: cancel, refund
+READY_FOR_PICKUP --&gt; COLLECTED
+COLLECTED --&gt; [*]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Sandeep UI's color order is PAID but waits for Chandramohan's approval. Then it prints, then Satwik checks the pages, and only then it becomes READY. Each step is a separate stage, so nothing jumps ahead.</p></div></article><article class="card" id="d4"><h3><span class="num">4</span>Payment flow with idempotent webhooks</h3>
+<div class="box proc"><h4>Process</h4><p>Gateways retry callbacks. The same event must never create two payments or orders.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">sequenceDiagram
+participant Cu as Customer
+participant API as Platform API
+participant GW as Payment Gateway
+participant DB as PostgreSQL
+Cu-&gt;&gt;API: Pay for order
+API-&gt;&gt;DB: Create payment PENDING with idempotency key
+API-&gt;&gt;GW: Create payment
+GW--&gt;&gt;Cu: UPI payment screen
+GW-&gt;&gt;API: Webhook payment success
+API-&gt;&gt;DB: Event already processed?
+alt Duplicate
+ API--&gt;&gt;GW: 200 OK, ignore
+else New
+ API-&gt;&gt;DB: Mark PAID, move order to approval flow
+ API--&gt;&gt;GW: 200 OK
+end
+Note over API,DB: A reconciliation job compares gateway records with the DB and fixes paid-but-no-order cases</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul pays by UPI. His payment app sends the 'success' message twice. The platform spots the second copy and ignores it. He is charged once and gets one order.</p></div></article><article class="card" id="d31"><h3><span class="num">31</span>Payment reconciliation</h3>
+<div class="box proc"><h4>Process</h4><p>A scheduled job finds mismatches between the gateway and our database, so no customer is charged without an order and nobody is charged twice.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+J["Reconciliation job, runs on a schedule"] --&gt; G["Fetch gateway transactions"]
+J --&gt; D["Fetch platform payments and orders"]
+G --&gt; CMP{"Compare"}
+D --&gt; CMP
+CMP --&gt;|"Match"| OK["Nothing to do"]
+CMP --&gt;|"Paid at gateway, no order or still pending"| FIX["Recover: mark PAID, continue order"]
+CMP --&gt;|"Duplicate payment"| DUP["Refund or adjust the extra one"]
+CMP --&gt;|"Order paid, gateway shows none"| INV["Flag for manual investigation"]
+FIX --&gt; AUD[("Audit log")]
+DUP --&gt; AUD
+INV --&gt; AL["Alert Golden Admin"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>At night, Chandramohan's report shows NagaTeja paid but has no order. The platform finds his payment at the gateway, restores the order and tells him. He is never left charged with nothing.</p></div></article><article class="card" id="d5"><h3><span class="num">5</span>Approval flow</h3>
+<div class="box proc"><h4>Process</h4><p>PAID does not mean the printer may print. Rules are merchant-configurable; thresholds are examples.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+P["Order PAID"] --&gt; M{"Shop approval mode"}
+M --&gt;|"Auto Print"| RL{"Any rule triggered? color, many pages, high value, many copies"}
+M --&gt;|"Manual"| WA["AWAITING_APPROVAL"]
+RL --&gt;|"No"| AP["APPROVED"]
+RL --&gt;|"Yes"| WA
+WA --&gt; D{"Staff or owner decision"}
+D --&gt;|"Approve"| AP
+D --&gt;|"Reject"| RF["Cancel and refund"]
+AP --&gt; QU["Print queue"]
+D -.-&gt; AU[("Audit log: who decided")]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Small black and white jobs print automatically. A 150-page color order waits for Chandramohan. He approves it and his name is saved on the order. If he rejects it, the customer is refunded.</p></div></article></section><section class="part" id="p2"><h2>Part 3: Running the shop</h2><p class="muted">People, permissions, printers and what each one can do.</p><article class="card" id="d17"><h3><span class="num">17</span>Multi-tenancy</h3>
+<div class="box proc"><h4>Process</h4><p>Merchant and Shop are different. Every row is scoped by merchant and shop.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+P["Platform"] --&gt; MA["Merchant A"]
+P --&gt; MB["Merchant B"]
+MA --&gt; S1["Shop A1"]
+MA --&gt; S2["Shop A2"]
+MB --&gt; S3["Shop B1"]
+S1 --&gt; R1["Resources, Print Stations, staff, orders"]
+S2 --&gt; R2["Resources, Print Stations, staff, orders"]
+S3 --&gt; R3["Resources, Print Stations, staff, orders"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Hemadri owns two shops. Chandramohan manages one of them and Sai works only there. Each shop sees only its own orders, printers and staff, even though Hemadri owns both.</p></div></article><article class="card" id="d18"><h3><span class="num">18</span>Authentication and RBAC</h3>
+<div class="box proc"><h4>Process</h4><p>Separate identities: user, staff membership, Print Station device, admin. Every denial is audited.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+RQ["Request"] --&gt; ID{"Identity type"}
+ID --&gt;|"Customer"| T1["Session or OTP login"]
+ID --&gt;|"Merchant or staff"| T2["Login plus StaffMembership for this shop"]
+ID --&gt;|"Print Station"| T3["Device credential from pairing"]
+ID --&gt;|"Platform admin"| T4["Admin login plus audited actions"]
+T1 --&gt; TN["Tenant check: shop and merchant scope"]
+T2 --&gt; TN
+T3 --&gt; TN
+T4 --&gt; TN
+TN --&gt; RB{"Role has permission?"}
+RB --&gt;|"Yes"| OK["Allow"]
+RB --&gt;|"No"| DN["Deny and write audit log"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Anil can check pickup codes but cannot refund. Chandramohan can approve and refund. Hemadri sees everything. If Anil tries a refund, the system says no and records the attempt.</p></div></article><article class="card" id="d49"><h3><span class="num">49</span>Staff permission model</h3>
+<div class="box proc"><h4>Process</h4><p>Roles are examples and must be configurable per shop. TBD/VALIDATE with merchants.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+OW["Owner"] --&gt; AL["All shop settings, pricing, staff, refunds, revenue"]
+MG["Manager"] --&gt; MGP["Approvals, routing rules, reassign, reports"]
+OP["Operator"] --&gt; OPP["Process queue, mark physical verification"]
+CS["Cashier or pickup desk"] --&gt; CSP["Verify pickup codes, hand over"]
+AL --&gt; AU[("Every action is attributed and audited")]
+MGP --&gt; AU
+OPP --&gt; AU
+CSP --&gt; AU</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Hemadri sets roles: himself as Owner, Chandramohan as Manager, Sai and Satwik as Operators, Anil at pickup, Chaitanya as cashier for walk-in cash orders. Every action carries the person's name.</p></div></article><article class="card" id="d14"><h3><span class="num">14</span>Merchant and staff workflow</h3>
+<div class="box proc"><h4>Process</h4><p>Daily operation inside one shop. Staff actions are tracked for accountability, not revenue.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+N["New paid order"] --&gt; AP{"Needs approval?"}
+AP --&gt;|"Yes"| A["Owner or approver reviews"]
+AP --&gt;|"No"| Q
+A --&gt; Q["Queue and auto-routing"]
+Q --&gt; PR["Printer prints via Print Station"]
+PR --&gt; PV["Staff physically verify and sort"]
+PV --&gt; RD["Mark ready, customer notified"]
+RD --&gt; PU["Staff verify OTP or QR and hand over"]
+A -.-&gt; L[("Audit: approved by")]
+PV -.-&gt; L
+PU -.-&gt; L</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>At 11 am Chandramohan approves a big order, Sai prints it, Satwik checks the pages, and Anil gives it to the customer. Later Hemadri can see exactly who did what.</p></div></article><article class="card" id="d36"><h3><span class="num">36</span>Merchant application architecture</h3>
+<div class="box proc"><h4>Process</h4><p>Everything a shop needs to run its day, gated by role.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+MW["Merchant Web / Mobile"] --&gt; OPS["Operations: live queue, approvals, verification, pickup"]
+MW --&gt; RES["Resources: printers, capabilities, routing rules, Print Stations"]
+MW --&gt; CAT["Catalog: services and prices"]
+MW --&gt; TEAM["Staff and permissions"]
+MW --&gt; FIN["Revenue dashboard and settlements"]
+MW --&gt; SET["Settings: approval rules, separator rule, subscription"]
+OPS &lt;--&gt; WS["WebSocket: live queue"]
+OPS --&gt; API["Platform API"]
+RES --&gt; API
+CAT --&gt; API
+TEAM --&gt; API
+FIN --&gt; API
+SET --&gt; API</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Chandramohan opens the merchant app to see the live queue, approve orders and check revenue. Hemadri uses the same app to change prices. Sai sees only the queue.</p></div></article><article class="card" id="d47"><h3><span class="num">47</span>Resource management</h3>
+<div class="box proc"><h4>Process</h4><p>How an owner adds, controls and retires a resource. A browser cannot list local printers, so the owner registers them by hand (a native agent could auto-discover, FALLBACK).</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+A["Owner enters printer details and links it to a Print Station"] --&gt; B["Owner registers resource"]
+B --&gt; C["Owner sets capabilities and speed"]
+C --&gt; D["Owner sets policy: ENABLED, MANUAL_ONLY, MAINTENANCE, DISABLED"]
+D --&gt; E["Resource joins routing pool"]
+E --&gt; F["System health overrides: OFFLINE or ERROR means no new jobs"]
+D --&gt; G["Owner can disable or remove at any time"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Hemadri buys a color printer. He adds it in the app, sets what it can do and turns it on. When it jams, he sets it to Maintenance so no new jobs go there.</p></div></article><article class="card" id="d21"><h3><span class="num">21</span>Printer capability and resource model</h3>
+<div class="box proc"><h4>Process</h4><p>The UI only shows options that the chosen shop's resources support.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">classDiagram
+class Shop
+class Resource{
+ type
+ system_state
+ owner_policy
+ speed_ppm
+}
+class ResourceCapability{
+ color
+ paper_sizes
+ duplex
+}
+class RoutingRule{
+ condition
+ target_resource
+}
+Shop "1" --&gt; "many" Resource
+Resource "1" --&gt; "1" ResourceCapability
+Shop "1" --&gt; "many" RoutingRule
+RoutingRule --&gt; Resource</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Printer A: black and white, A4, fast. Printer B: color and A3, slower. Because the platform knows this, Rahul is never shown an A3 option for Printer A.</p></div></article></section><section class="part" id="p3"><h2>Part 4: Printing on the shop PC</h2><p class="muted">How a job reaches the printer through the Print Station.</p><article class="card" id="d6"><h3><span class="num">6</span>Print Station architecture (cloud vs local)</h3>
+<div class="box proc"><h4>Process</h4><p>Cloud decides WHAT to print and where. The Print Station, a web page on the shop PC, decides HOW to hand it to the local printer. A native agent is the fallback if V0 tests on real shop PCs fail (TBD/VALIDATE).</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+subgraph CLOUD["CLOUD: what"]
+ O["Order and routing decision"] --&gt; PQ[("Print Queue: small job messages")]
+ FS[("Object storage: print-ready PDF")]
+ ST["Status and health store"]
+end
+subgraph LOCAL["SHOP PC: how"]
+ AG["Print Station web page: prefetch, silent print, report status"]
+ LC[("Local cache: next 1 to 2 jobs")]
+ SPL["OS print queue (Windows spooler)"]
+ PRT["Physical Printer"]
+end
+PQ --&gt;|"job message"| AG
+FS --&gt;|"short-lived signed URL, prefetch"| LC
+AG --&gt; LC
+LC --&gt; SPL --&gt; PRT
+PRT -.-&gt;|"limited local status"| SPL
+AG --&gt;|"heartbeat, job status, errors it can see"| ST</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>A web page called the Print Station stays open on Hemadri's shop PC all day. The cloud says 'print job 1842'. The page next to the printer sends it out. The cloud decides what. The page decides how.</p></div></article><article class="card" id="d7"><h3><span class="num">7</span>Print Station pairing</h3>
+<div class="box proc"><h4>Process</h4><p>One-time code exchanged for a device credential. The credential is revocable and stays in the Print Station browser profile.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">sequenceDiagram
+participant A as Shop Admin
+participant W as Merchant Web
+participant B as Backend
+participant G as Print Station (browser)
+A-&gt;&gt;W: Add Print Station
+W-&gt;&gt;B: Generate one-time pairing code
+B--&gt;&gt;W: Code with short expiry
+A-&gt;&gt;G: Enter code on the Print Station page
+G-&gt;&gt;B: Present code
+B-&gt;&gt;B: Validate, mark code used
+B--&gt;&gt;G: Device credential, stored in this browser profile
+G-&gt;&gt;B: Heartbeat and station status
+A-&gt;&gt;W: Register the shop printer manually, a browser cannot list printers</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Hemadri opens the Print Station page on the shop PC (nothing to install) and types a one-time code from his dashboard. The code works once and expires. Then he adds the printer details by hand.</p></div></article><article class="card" id="d53"><h3><span class="num">53</span>File delivery and prefetch (keeping it fast)</h3>
+<div class="box proc"><h4>Process</h4><p>Only small messages travel through the queue. The file moves once, straight from storage, and is prefetched so the printer never waits on the network. The original file is never modified.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+U["Customer uploads direct to object storage with a presigned URL"] --&gt; N["Server processes once: validate, page count, print-ready PDF copy, original untouched"]
+N --&gt; ST[("Encrypted object storage, India region")]
+AP["Job APPROVED and queued"] --&gt; MSG["Small job message to the Print Station"]
+MSG --&gt; LA{"In the next 1 to 2 jobs for its printer?"}
+LA --&gt;|"No"| WT["Wait: message only, no file yet"]
+LA --&gt;|"Yes"| PF["Prefetch via short-lived signed URL, resumable, checksum"]
+ST --&gt; PF
+PF --&gt; LC[("Local cache on shop PC")]
+LC --&gt; PR["Print when the printer is free"]
+PR --&gt; DEL["Delete local copy after printing"]
+NET["Internet drops"] -.-&gt; OFFL["Cached jobs keep printing, status syncs later with the same job id, no reprint"]
+OFFL -.-&gt; LC</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul's 40-page file is sent once. While Sai's printer finishes the earlier job, the shop PC already downloads his file. When the printer is free, it prints at once with no waiting on slow internet.</p></div></article><article class="card" id="d19"><h3><span class="num">19</span>Print queue and cloud-to-Print-Station communication</h3>
+<div class="box proc"><h4>Process</h4><p>The Print Station receives small job messages and acknowledges each, then prefetches the file so it is local before the printer is free. Unacknowledged jobs return to the queue. Transport (polling or socket) is TBD/VALIDATE.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">sequenceDiagram
+participant C as Cloud Queue
+participant O as Object Storage
+participant A as Print Station
+participant S as OS Print Queue
+C-&gt;&gt;A: Job message for resource X, no file yet
+A-&gt;&gt;C: Ack received
+A-&gt;&gt;O: Prefetch PDF via short-lived URL, verify checksum
+Note over A: Done while the earlier job still prints
+A-&gt;&gt;S: Silent print to the PC default printer
+S--&gt;&gt;A: Submitted, limited detail
+A-&gt;&gt;C: Status: sent to printer, staff confirm the result
+Note over C,S: No ack in time:&lt;br/&gt;job returns to queue&lt;br/&gt;for re-routing</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>The platform sends a small message: 'Job 1842 for Printer A'. The Print Station replies 'received' and fetches the file. If nobody answers in time, the job goes back in the queue and is routed again.</p></div></article><article class="card" id="d20"><h3><span class="num">20</span>Print Station heartbeat</h3>
+<div class="box proc"><h4>Process</h4><p>Missed heartbeats make resources OFFLINE and stop new routing. The heartbeat also shows if the page is hidden or the screen may sleep.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+AG["Print Station page every N seconds: station id, page visible, wake lock, last job"] --&gt; API["Backend"]
+API --&gt; LS[("Last seen and station status")]
+LS --&gt; MON{"Heartbeat missed?"}
+MON --&gt;|"No"| OKK["Resource stays routable"]
+MON --&gt;|"Yes"| OFF["Mark OFFLINE, stop new jobs, reroute where safe"]
+OFF --&gt; AL["Alert merchant and Golden Admin"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>The Print Station says 'I am alive' every few seconds. At lunch Anil minimizes the page and it goes to sleep. The platform notices the silence and alerts Chandramohan before customers wait.</p></div></article><article class="card" id="d33"><h3><span class="num">33</span>Print Station to OS print queue to printer</h3>
+<div class="box proc"><h4>Process</h4><p>What the Print Station does locally for each job. A browser sees little of the printer, so staff confirm what really printed. Driver and silent-print setup are TBD/VALIDATE in V0.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">sequenceDiagram
+participant A as Print Station
+participant F as Local cache
+participant S as OS Print Queue
+participant P as Printer
+A-&gt;&gt;F: Prefetch next jobs, verify checksum
+A-&gt;&gt;S: Silent print, no dialog, default printer
+S-&gt;&gt;P: Send data
+P--&gt;&gt;S: Little or no detail reaches the browser
+S--&gt;&gt;A: Submitted, limited status
+A-&gt;&gt;A: Report sent to cloud, staff verify the pages
+A-&gt;&gt;F: Delete cached file</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>The Print Station sends Rahul's job to the PC's print queue and then to the printer. It cannot see a paper jam, so Sai checks the tray and confirms what really came out.</p></div></article><article class="card" id="d46"><h3><span class="num">46</span>Printer communication</h3>
+<div class="box proc"><h4>Process</h4><p>The printer is only reached through the PC's own print queue. A browser cannot pick a printer or set duplex and colour per job, so silent printing goes to the default printer. Exact approach is TBD/VALIDATE in V0, with a native agent as the fallback.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+CL["Cloud print queue"] --&gt; PS["Print Station web page: own window, silent print mode"]
+PS --&gt; SP["OS print queue: Windows spooler"]
+SP --&gt; D1["Driver, default printer settings"]
+D1 --&gt; U1["USB printer"]
+D1 --&gt; N1["Network printer"]
+SP -.-&gt;|"limited status"| PS
+PS -.-&gt;|"sent, errors it can see"| CL
+STF["Staff physical check"] -.-&gt;|"real outcome"| CL
+FB["FALLBACK: native agent sets printer and options per job"] -.-&gt; SP</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>A browser can only use the PC's default printer settings. So Hemadri sets Printer A as the default for black and white jobs. If shops later need per-job options, a small installed helper is the backup plan.</p></div></article><article class="card" id="d8"><h3><span class="num">8</span>Printer state machine</h3>
+<div class="box proc"><h4>Process</h4><p>System state plus owner policy. Only a healthy, enabled, capable printer receives new jobs.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">stateDiagram-v2
+[*] --&gt; OFFLINE
+OFFLINE --&gt; AVAILABLE: Print Station online and printer enabled
+AVAILABLE --&gt; RESERVED: job assigned
+RESERVED --&gt; BUSY: printing starts
+BUSY --&gt; AVAILABLE: done and verified
+BUSY --&gt; ERROR: staff reports jam or no paper, or station error
+ERROR --&gt; AVAILABLE: cleared
+AVAILABLE --&gt; PAUSED: staff pause
+PAUSED --&gt; AVAILABLE
+AVAILABLE --&gt; MAINTENANCE: owner policy
+MAINTENANCE --&gt; AVAILABLE
+AVAILABLE --&gt; OFFLINE: heartbeat lost
+AVAILABLE --&gt; DISABLED: owner disables
+DISABLED --&gt; AVAILABLE</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Printer B runs out of paper and Satwik pauses it. It shows Paused, so no new jobs are sent there. When he refills it and resumes, it becomes Available again.</p></div></article></section><section class="part" id="p4"><h2>Part 5: Smart decisions</h2><p class="muted">Choosing the printer, estimating time, and Priority.</p><article class="card" id="d9"><h3><span class="num">9</span>Smart routing</h3>
+<div class="box proc"><h4>Process</h4><p>Deterministic rules first, no AI in V1. Output is a resource plus an ETA.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+J["Job requirements: color, size, duplex, pages"] --&gt; F1["Capability filter"]
+F1 --&gt; F2["Merchant rules and owner policy"]
+F2 --&gt; F3["Health and availability"]
+F3 --&gt; N{"Any candidate?"}
+N --&gt;|"No"| H["Hold and alert merchant"]
+N --&gt;|"Yes"| SC["Rank by queue length, speed, priority"]
+SC --&gt; E["Compute ETA"]
+E --&gt; BEST["Best resource assigned"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul's small black and white job goes to Printer A, as Hemadri's rule says. Sandeep UI's A3 color poster goes to Printer B, the only one that can do it. The system first checks what is possible.</p></div></article><article class="card" id="d32"><h3><span class="num">32</span>Routing decision tree</h3>
+<div class="box proc"><h4>Process</h4><p>Deterministic and explainable. Every branch has a clear outcome.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+S["Approved job"] --&gt; C1{"Needs color?"}
+C1 --&gt;|"Yes"| K1["Only color-capable resources"]
+C1 --&gt;|"No"| K2["All resources"]
+K1 --&gt; C2{"Paper size supported?"}
+K2 --&gt; C2
+C2 --&gt;|"No resource"| X["Hold and alert merchant"]
+C2 --&gt;|"Yes"| C3{"Owner policy ENABLED and system healthy?"}
+C3 --&gt;|"None"| X
+C3 --&gt;|"Some"| C4{"Merchant rule matches? small B&amp;W, bulk, photo"}
+C4 --&gt;|"Yes"| P["Prefer the rule's resource if healthy"]
+C4 --&gt;|"No"| L["Lowest ETA among candidates"]
+P --&gt; A["Assign resource"]
+L --&gt; A</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>A job needs A3 color, but Printer B is switched off. No printer qualifies, so the job is held and Chandramohan gets an alert, instead of the job quietly failing.</p></div></article><article class="card" id="d10"><h3><span class="num">10</span>ETA calculation and update</h3>
+<div class="box proc"><h4>Process</h4><p>ETA is core and free. It is shown as a range and customers are told when it changes meaningfully.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+I1["Jobs, pages and copies ahead"] --&gt; CALC
+I2["Printer speed and health"] --&gt; CALC
+I3["Approval and verification delay"] --&gt; CALC
+I4["Priority status"] --&gt; CALC
+CALC["ETA engine"] --&gt; RNG["Range, e.g. 7 to 10 min"]
+RNG --&gt; UI["Customer sees ETA"]
+EV["Event: printer failure, reroute, queue change"] --&gt; CALC
+CALC --&gt; CH{"Change is meaningful?"}
+CH --&gt;|"Yes"| NT["Notify customer with reason and new range"]
+CH --&gt;|"No"| SIL["Update silently"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul sees 'about 8 to 10 minutes'. When Printer A jams, his time becomes 14 to 18 minutes and he gets a message saying why. A tiny 30-second change does not bother him.</p></div></article><article class="card" id="d11"><h3><span class="num">11</span>Priority Service and upgrade</h3>
+<div class="box proc"><h4>Process</h4><p>Offered only if it gives a real speed-up. Base price is untouched. Upgrade charges only the extra fee. Fee split is TBD/VALIDATE.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+S["Standard ETA computed"] --&gt; P["Priority ETA computed"]
+P --&gt; G{"Meaningfully faster?"}
+G --&gt;|"No"| NO["Do not offer Priority"]
+G --&gt;|"Yes"| OF["Offer Priority fee"]
+OF --&gt; ACC{"Customer accepts?"}
+ACC --&gt;|"Yes"| PF["Pay base plus priority fee"]
+ACC --&gt;|"No"| STD["Standard order"]
+STD --&gt; LATER{"Queue worsens and Priority now helps?"}
+LATER --&gt;|"Yes"| UP["Offer upgrade: pay only incremental fee"]
+LATER --&gt;|"No"| KEEP["Continue as is"]
+PF --&gt; SPLIT["Merchant share and platform share (TBD)"]
+UP --&gt; SPLIT</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul needs his 40 pages before a 4 pm class. The normal wait is 22 minutes. Priority makes it 8 for an extra ₹10, so it is offered. If it saved only one minute, it would not be offered.</p></div></article><article class="card" id="d50"><h3><span class="num">50</span>Priority edge case: route disappears</h3>
+<div class="box proc"><h4>Process</h4><p>Never mis-sell. If the faster path vanishes after purchase, a predefined policy applies (exact policy TBD/VALIDATE).</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+P["Priority order paid"] --&gt; M{"Priority path still faster?"}
+M --&gt;|"Yes"| K["Continue with priority"]
+M --&gt;|"No"| POL{"Predefined policy"}
+POL --&gt; R1["Refund priority fee"]
+POL --&gt; R2["Offer new ETA and let customer choose"]
+R1 --&gt; N["Notify customer with reason"]
+R2 --&gt; N
+N --&gt; AU[("Audit and priority refund metric")]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul paid for Priority but the fast printer breaks. The platform does not keep the extra money. It refunds the priority fee or lets him choose a new time.</p></div></article></section><section class="part" id="p5"><h2>Part 6: The physical world</h2><p class="muted">Paper is real. Staff check what was printed.</p><article class="card" id="d12"><h3><span class="num">12</span>Physical verification and printer failure</h3>
+<div class="box proc"><h4>Process</h4><p>Digital completion is not physical completion. After a mid-job failure staff confirm what actually printed before anything is reprinted.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+PR["PRINTING"] --&gt; OK{"Print Station reports sent and OS queue clear?"}
+OK --&gt;|"Yes"| SEP{"Separator or acknowledgement rule?"}
+SEP --&gt; PV["PHYSICAL_VERIFICATION: staff check and sort pages"]
+OK --&gt;|"Failure mid-job"| ER["ERROR: pause resource, alert staff"]
+ER --&gt; PV
+PV --&gt; R{"Staff outcome"}
+R --&gt;|"All correct"| RD["READY_FOR_PICKUP, notify customer with OTP"]
+R --&gt;|"Partial"| CH{"Choose action"}
+CH --&gt; A1["Continue remaining pages"]
+CH --&gt; A2["Restart"]
+CH --&gt; A3["Reassign to another printer"]
+CH --&gt; A4["Cancel and refund"]
+A1 --&gt; Q["Back to queue, ETA recalculated"]
+A2 --&gt; Q
+A3 --&gt; Q</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>The printer says 'done', but Satwik finds page 9 crumpled. Because he checks before the order turns READY, Rahul gets a perfect set. If a failure happens halfway, he decides the next step.</p></div></article><article class="card" id="d34"><h3><span class="num">34</span>Partial print recovery and reassignment</h3>
+<div class="box proc"><h4>Process</h4><p>After a mid-job failure the system never reprints blindly. Staff decide from what is physically on the tray.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+F["Printer fails after some pages"] --&gt; PA["Pause resource, stop new routing"]
+PA --&gt; ST["Staff count pages physically printed"]
+ST --&gt; D{"Staff decision"}
+D --&gt;|"Continue remaining"| R1["New task: pages from N+1"]
+D --&gt;|"Restart"| R2["Discard partial, reprint all"]
+D --&gt;|"Reassign"| R3["Route remaining to another capable printer"]
+D --&gt;|"Cancel"| R4["Cancel and refund"]
+R1 --&gt; RT["Routing and ETA recalculated"]
+R2 --&gt; RT
+R3 --&gt; RT
+RT --&gt; NT["Notify customer: reason and new ETA"]
+R1 -.-&gt; AU[("Audit: decision and pages counted")]
+R2 -.-&gt; AU
+R3 -.-&gt; AU
+R4 -.-&gt; AU</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Sai's printer stops after 37 of 100 pages. He counts the pages on the tray, tells the system, and prints only pages 38 to 100 on Printer B. Nothing is printed twice.</p></div></article><article class="card" id="d22"><h3><span class="num">22</span>Job separation: eco separator and acknowledgement</h3>
+<div class="box proc"><h4>Process</h4><p>Prevents mixed papers. Customer documents are never modified. Separator material and thresholds are TBD/VALIDATE.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+JA["Job A finishes"] --&gt; RL{"Merchant rule"}
+RL --&gt;|"Separator"| SEP["Print separator sheet with internal job id, then Job B"]
+RL --&gt;|"Acknowledge"| HOLD["Hold Job B"] --&gt; ACK["Staff sorts Job A, presses Acknowledge and Continue"] --&gt; JB["Job B starts"]
+RL --&gt;|"None"| JB
+SEP --&gt; JB</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul's 24 pages finish and the next job starts at once. A separator sheet prints between them, so Satwik never mixes the two stacks. Hemadri can also choose 'wait for staff OK'.</p></div></article></section><section class="part" id="p6"><h2>Part 7: Pickup and updates</h2><p class="muted">Telling the customer and handing over safely.</p><article class="card" id="d43"><h3><span class="num">43</span>Pickup lifecycle</h3>
+<div class="box proc"><h4>Process</h4><p>Tracks the physical handover after the order is ready. Expiry period is TBD/VALIDATE.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">stateDiagram-v2
+[*] --&gt; READY_FOR_PICKUP: OTP and QR issued
+READY_FOR_PICKUP --&gt; ARRIVED: FUTURE, I am at the shop
+ARRIVED --&gt; VERIFIED
+READY_FOR_PICKUP --&gt; VERIFIED: code matches
+READY_FOR_PICKUP --&gt; LOST_CODE: customer lost code
+LOST_CODE --&gt; VERIFIED: alternate check, audited
+READY_FOR_PICKUP --&gt; UNCOLLECTED: retention window passed
+VERIFIED --&gt; COLLECTED
+UNCOLLECTED --&gt; DISPOSED: per policy
+COLLECTED --&gt; [*]
+DISPOSED --&gt; [*]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul gets code 4827 but loses his phone. Anil verifies him another way and the check is saved. If an order is never collected, the shop's rule decides what happens after some days.</p></div></article><article class="card" id="d44"><h3><span class="num">44</span>Customer status flow</h3>
+<div class="box proc"><h4>Process</h4><p>Internal states are mapped to simple messages. Customers never see "PRINT_COMPLETED" as ready.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+S1["PAID, AWAITING_APPROVAL"] --&gt; M1["Order received"]
+S2["APPROVED, QUEUED, RESOURCE_ASSIGNED"] --&gt; M2["In queue, ETA shown"]
+S3["PRINTING"] --&gt; M3["Printing now"]
+S4["PRINT_COMPLETED, PHYSICAL_VERIFICATION"] --&gt; M4["Checking your pages"]
+S5["ERROR, retry or reassign"] --&gt; M5["Issue found, new ETA"]
+S6["READY_FOR_PICKUP"] --&gt; M6["Ready, show your OTP"]
+S7["COLLECTED"] --&gt; M7["Done"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul sees 'Printing now', then 'Checking your pages', then 'Ready'. He never sees technical words like PRINT_COMPLETED.</p></div></article><article class="card" id="d23"><h3><span class="num">23</span>Notifications and real-time updates</h3>
+<div class="box proc"><h4>Process</h4><p>Events produce notifications. Channel choices are TBD.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+EV["Domain events: paid, printing, ETA changed, failure, ready, collected, refund"] --&gt; NS["Notification service"]
+NS --&gt; PF["Preferences and dedupe"]
+PF --&gt; WSK["WebSocket: live status in app"]
+PF --&gt; PU["Push"]
+PF --&gt; SM["SMS and email, provider TBD"]
+WSK --&gt; UI["Customer status screen"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>When Rahul's order is ready he gets a message on his phone. If his app is closed, a push or SMS still reaches him.</p></div></article><article class="card" id="d45"><h3><span class="num">45</span>WebSocket and push flow</h3>
+<div class="box proc"><h4>Process</h4><p>Live screen updates when the app is open. Push when it is not. Channels are TBD.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">sequenceDiagram
+participant E as Event source
+participant N as Notification service
+participant W as WebSocket gateway
+participant U as Customer app
+participant P as Push provider
+E-&gt;&gt;N: Order event
+N-&gt;&gt;W: Publish to order room
+alt App connected
+ W--&gt;&gt;U: Live status update
+else Not connected
+ N-&gt;&gt;P: Send push
+ P--&gt;&gt;U: Push message
+end
+U-&gt;&gt;W: Reconnect later, fetch latest state</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul has the tracking page open and watches the status change live. Sandeep UI's phone is locked, so he gets a notification. When he opens the page, it shows the latest status.</p></div></article><article class="card" id="d25"><h3><span class="num">25</span>Audit logging and secure pickup</h3>
+<div class="box proc"><h4>Process</h4><p>Sensitive actions leave a record. Pickup needs a code the customer holds.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+AC["Sensitive action: approve, refund, reroute, price change, pickup verify"] --&gt; AUD[("Audit log: actor, role, shop, time, before and after")]
+RDY["Order READY"] --&gt; OTP["Generate OTP or QR, send to customer"]
+OTP --&gt; VF["Staff verify code"]
+VF --&gt;|"Match"| HO["Hand over, COLLECTED"]
+VF --&gt;|"Lost code"| ALT["Alternate verified process, audited"]
+HO --&gt; AUD
+ALT --&gt; AUD</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Chandramohan approves a refund and his name, time and reason are saved. At pickup, Anil checks Rahul's OTP before handing over his papers.</p></div></article></section><section class="part" id="p7"><h2>Part 8: Platform and security</h2><p class="muted">How the system is built and protected.</p><article class="card" id="d15"><h3><span class="num">15</span>High-level and backend architecture</h3>
+<div class="box proc"><h4>Process</h4><p>One NestJS API made of modules. The queue decouples slow work from requests.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+subgraph CL["Clients"]
+ CW["Customer Web"] ; CM["Customer Mobile"] ; MW["Merchant Web"] ; MM["Merchant Mobile"] ; GA["Golden Admin"]
+end
+CL --&gt; GW["API layer: auth, validation, tenancy"]
+GW --&gt; MOD["Modules: orders, payments, documents, pricing, resources, routing, print-jobs, print-stations, pickup, notifications, subscriptions, analytics, audit"]
+MOD --&gt; DB[("PostgreSQL")]
+MOD --&gt; RQ[("Redis and BullMQ")]
+MOD --&gt; OS[("Object storage")]
+MOD --&gt; WS["WebSocket gateway"]
+RQ --&gt; WK["Workers: ETA, notifications, reconciliation, cleanup"]
+MOD --&gt; PQ["Print queue"] --&gt; AGT["Print Stations (web)"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>When Rahul taps Pay, the order, payment and printing parts of the platform work together. Slow jobs like sending messages run in the background so his screen stays quick.</p></div></article><article class="card" id="d16"><h3><span class="num">16</span>Frontend applications</h3>
+<div class="box proc"><h4>Process</h4><p>Three audiences, shared packages, one API.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+subgraph APPS["apps"]
+ A1["customer-web: QR landing, upload, pay, track"]
+ A2["customer-mobile: Expo"]
+ A3["merchant-web: queue, resources, staff, revenue"]
+ A4["merchant-mobile"]
+ A5["Golden Admin"]
+ A6["print-station: web app in its own browser window. Native agent is the fallback, TBD"]
+end
+subgraph PKG["shared packages"]
+ P1["types"] ; P2["validation"] ; P3["api-client"] ; P4["ui"]
+end
+APPS --&gt; PKG --&gt; API["Platform API"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul uses the customer web page, Chandramohan the merchant page, and Hemadri's shop PC the Print Station page. All three talk to the same platform behind them.</p></div></article><article class="card" id="d35"><h3><span class="num">35</span>Customer application architecture</h3>
+<div class="box proc"><h4>Process</h4><p>QR opens a web app first. A native app is optional (web versus app emphasis is TBD/VALIDATE).</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+QR["Shop QR"] --&gt; W["Customer Web"]
+W --&gt; F1["Shop and services"]
+W --&gt; F2["Upload and label"]
+W --&gt; F3["Options, price, ETA"]
+W --&gt; F4["Pay"]
+W --&gt; F5["Track order"]
+W --&gt; F6["Pickup OTP or QR"]
+M["Customer Mobile, Expo"] --&gt; F5
+M --&gt; F6
+F1 --&gt; API["Platform API"]
+F2 --&gt; API
+F3 --&gt; API
+F4 --&gt; API
+F5 &lt;--&gt; WS["WebSocket updates"]
+F6 --&gt; API</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul scans the QR, uploads, pays, tracks and shows his OTP. No app install is needed. A mobile app can be added later if shops want it.</p></div></article><article class="card" id="d37"><h3><span class="num">37</span>Golden Admin architecture</h3>
+<div class="box proc"><h4>Process</h4><p>Read-heavy oversight of the whole platform with strong audit. It does not run shop operations.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+GA["Golden Admin UI"] --&gt; AUTHZ["Admin auth and admin roles"]
+AUTHZ --&gt; V1["Overview and metrics"]
+AUTHZ --&gt; V2["Shops, customers, orders"]
+AUTHZ --&gt; V3["Resources and Print Station health"]
+AUTHZ --&gt; V4["Payments and subscriptions"]
+AUTHZ --&gt; V5["Support tickets"]
+AUTHZ --&gt; V6["Platform settings"]
+V1 --&gt; RD[("Read replicas and analytics store")]
+V2 --&gt; RD
+V3 --&gt; MON["Monitoring and alerts"]
+V4 --&gt; API["Platform API"]
+V5 --&gt; API
+V6 --&gt; API
+API --&gt; AUD[("Audit log for every sensitive action")]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>The platform team checks that shops are online and spots a payment problem. They can look, but they cannot change Hemadri's prices or start his printers.</p></div></article><article class="card" id="d28"><h3><span class="num">28</span>Golden Admin operations</h3>
+<div class="box proc"><h4>Process</h4><p>Platform oversight. It does not start prints or change merchant prices.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+GA["Golden Admin"] --&gt; OV["Overview: shops, orders, revenue, active jobs"]
+GA --&gt; SH["Shops and subscriptions"]
+GA --&gt; HE["System health: offline Print Stations, failed jobs, alerts"]
+GA --&gt; PY["Payments and reconciliation"]
+GA --&gt; SU["Support tickets"]
+GA --&gt; AU["Admin and audit log"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>A support ticket arrives: 'NagaTeja's order is not ready'. The team opens the order, sees a Print Station offline and tells Chandramohan. Every look at private data is recorded.</p></div></article><article class="card" id="d38"><h3><span class="num">38</span>Observability</h3>
+<div class="box proc"><h4>Process</h4><p>How the team finds problems before shops do.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+SRC1["API and workers"] --&gt; LG["Logs, metrics, traces"]
+SRC2["Print Station heartbeats"] --&gt; LG
+SRC3["Queue depth and failures"] --&gt; LG
+SRC4["Payment mismatches"] --&gt; LG
+LG --&gt; DASH["Dashboards"]
+LG --&gt; ALR{"Threshold breached?"}
+ALR --&gt;|"Yes"| NOTIFY["Alert on-call and Golden Admin"]
+ALR --&gt;|"No"| DASH</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>At 3 pm several Print Stations stop reporting. An alert reaches the team before any shop complains. They find an internet provider problem in one area.</p></div></article><article class="card" id="d24"><h3><span class="num">24</span>Document security and lifecycle</h3>
+<div class="box proc"><h4>Process</h4><p>Only promise what is implemented: encryption, scoped access, expiry and deletion. Retention period is TBD.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">stateDiagram-v2
+[*] --&gt; UPLOADED: validate type and size
+UPLOADED --&gt; STORED: encrypted in object storage
+STORED --&gt; IN_USE: short-lived access for approved job
+IN_USE --&gt; STORED
+STORED --&gt; EXPIRED: after retention period TBD
+EXPIRED --&gt; DELETED: automatic purge
+STORED --&gt; DELETED: customer deletes
+DELETED --&gt; [*]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Rahul's ID proof is stored encrypted. Only the assigned shop and Print Station can open it for a short time, and it is deleted after the retention period. We promise only what is really built.</p></div></article><article class="card" id="d48"><h3><span class="num">48</span>Document access control</h3>
+<div class="box proc"><h4>Process</h4><p>Access is granted per job, short-lived and logged.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+R["Request for a document"] --&gt; W{"Who?"}
+W --&gt;|"Owner customer"| OK["Allow"]
+W --&gt;|"Print Station for assigned approved job"| TMP["Short-lived signed access"]
+W --&gt;|"Staff of the same shop"| ST{"Role allows?"}
+W --&gt;|"Other shop or user"| DN["Deny"]
+ST --&gt;|"Yes"| OK
+ST --&gt;|"No"| DN
+OK --&gt; LG[("Access log")]
+TMP --&gt; LG
+DN --&gt; LG</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Chaitanya tries to open an order from another shop by mistake. The system says no and logs it. Only the customer and the assigned shop's staff and Print Station can open a file.</p></div></article></section><section class="part" id="p8"><h2>Part 9: Money model and future</h2><p class="muted">How the business earns, and what comes later.</p><article class="card" id="d26"><h3><span class="num">26</span>Subscription, monetization and priority fee flow</h3>
+<div class="box proc"><h4>Process</h4><p>Two revenue engines. Core customer features such as ETA are not paywalled. Prices and split are TBD/VALIDATE.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+MS["Merchant subscription: Starter, Growth, Pro, Enterprise"] --&gt; PL(("Platform revenue"))
+PRI["Customer Priority fee"] --&gt; SP{"Split TBD"}
+SP --&gt; MSH["Merchant share"]
+SP --&gt; PSH["Platform share"]
+PSH --&gt; PL
+CUSTP["Customer pays base price"] --&gt; MON["Merchant revenue, price set by merchant"]
+CV["Convenience fee: FUTURE"] -.-&gt; PL
+API["API and institutional fees: FUTURE"] -.-&gt; PL</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Hemadri pays a monthly plan for extra features such as more printers. Rahul pays the print price to Hemadri, plus a small priority fee shared with the platform. Basic ETA stays free.</p></div></article><article class="card" id="d27"><h3><span class="num">27</span>Analytics, financial dashboard and staff activity</h3>
+<div class="box proc"><h4>Process</h4><p>Three dimensions are kept separate: shop, resource and staff.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+EVT[("Orders, payments, jobs, audit events")] --&gt; AGG["Aggregation workers"]
+AGG --&gt; SH["Shop: gross and net sales, refunds, fees, AOV, service and payment mix"]
+AGG --&gt; RS["Resource: jobs, pages, utilization, failures, downtime"]
+AGG --&gt; SF["Staff: approvals, verifications, pickups, corrections"]
+SH --&gt; MD["Merchant dashboard"]
+RS --&gt; MD
+SF --&gt; MD
+AGG --&gt; GD["Golden Admin analytics"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>Hemadri sees today's sales and best-selling services. Printer pages and downtime are shown on a separate view. Staff actions like Sai's approvals are shown separately. Sales are not credited to staff.</p></div></article><article class="card" id="d29"><h3><span class="num">29</span>Future: multi-service orders</h3>
+<div class="box proc"><h4>Process</h4><p>FUTURE. The generic Order, OrderItem, Task, Resource model avoids hardcoding printers.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+O["Order"] --&gt; I1["OrderItem: B&amp;W pages"] --&gt; T1["Print task"] --&gt; R1["Printer"]
+O --&gt; I2["OrderItem: color cover"] --&gt; T2["Color print task"] --&gt; R2["Color printer"]
+O --&gt; I3["OrderItem: lamination"] --&gt; T3["Lamination task"] --&gt; R3["Laminator"]
+O --&gt; I4["OrderItem: binding"] --&gt; T4["Binding task"] --&gt; R4["Binding station"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>FUTURE. NagaTeja wants a 45-page report with a color cover, lamination and binding. One order splits into print, color print, lamination and binding tasks, each going to the right machine.</p></div></article><article class="card" id="d30"><h3><span class="num">30</span>Future: marketplace, API, institutions, delivery</h3>
+<div class="box proc"><h4>Process</h4><p>FUTURE. Built only after one shop's workflow works well.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+MK["Marketplace: compare shops by distance, price, ETA"] -.-&gt; CORE(("Core platform: orders, routing, ETA"))
+UP["University or corporate portal"] -.-&gt;|"Platform API"| CORE
+DL["Delivery partner"] -.-&gt; CORE
+CORE --&gt; SHOPS["Shops and resources"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>FUTURE. Rahul compares three shops by price, distance and waiting time. A college portal sends print orders straight to Hemadri's shop.</p></div></article><article class="card" id="d51"><h3><span class="num">51</span>Future: resource orchestration</h3>
+<div class="box proc"><h4>Process</h4><p>FUTURE. Beyond printers, the same routing idea applies to scanners, laminators and binders.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart TD
+T["Tasks from orders"] --&gt; RE["Resource orchestrator: capability, health, queue, ETA"]
+RE --&gt; R1["Printers"]
+RE --&gt; R2["Scanners"]
+RE --&gt; R3["Laminators"]
+RE --&gt; R4["Binding stations"]
+RE --&gt; R5["Human tasks"]</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>FUTURE. Hemadri adds a binding machine and a laminator. The same routing idea now schedules them like printers.</p></div></article><article class="card" id="d52"><h3><span class="num">52</span>Future: external API and institutional integration</h3>
+<div class="box proc"><h4>Process</h4><p>FUTURE. Partners create orders through the API. Monetization is open.</p></div>
+<div class="dia"><p class="hint">Swipe sideways to see the whole diagram.</p><div class="scroll"><pre class="mermaid">flowchart LR
+UP["University portal"] -.-&gt; GW["Public API: keys, rate limits"]
+CP["Corporate system"] -.-&gt; GW
+TP["Third-party app"] -.-&gt; GW
+GW --&gt; OR["Create order, get status, ETA, payment status"]
+OR --&gt; CORE(("Core platform"))
+CORE -.-&gt;|"webhooks"| UP
+CORE -.-&gt;|"webhooks"| CP
+INS["Institutional wallet or plan: FUTURE"] -.-&gt; CORE</pre></div></div>
+<div class="box sit"><h4>Situation</h4><p>FUTURE. A college portal sends print orders for 300 students to Hemadri's shop through the platform.</p></div></article></section>
+
+</div></main>
+</div>
+<footer><div class="w">Print Platform Guide. Diagrams need an internet connection the first time to load the drawing library.</div></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script>
+(function(){
+ if(typeof mermaid==='undefined'){
+  document.querySelectorAll('.hint').forEach(function(h){h.textContent='The drawing library could not load. Check your internet connection and refresh.';});
+  return;
+ }
+ var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+ var p=dark?{bg:'#1f232b',s:'#262b34',t:'#f2f3f5',l:'#a8adb8',b:'#9aa4b8'}:{bg:'#fffdf8',s:'#f4efe4',t:'#2b2620',l:'#6b6150',b:'#7a6c52'};
+ try{
+  mermaid.initialize({startOnLoad:false,theme:'base',securityLevel:'loose',
+   themeVariables:{background:p.bg,mainBkg:p.s,primaryColor:p.s,primaryTextColor:p.t,primaryBorderColor:p.b,lineColor:p.l,secondaryColor:p.s,tertiaryColor:p.s,textColor:p.t,edgeLabelBackground:p.bg,clusterBkg:'rgba(127,127,127,0.08)',clusterBorder:p.b,nodeBorder:p.b,
+    noteBkgColor:dark?'#33302a':'#fbf0d9',noteTextColor:p.t,noteBorderColor:p.b,actorBkg:p.s,actorBorder:p.b,actorTextColor:p.t,actorLineColor:p.l,signalColor:p.t,signalTextColor:p.t,labelBoxBkgColor:p.s,labelBoxBorderColor:p.b,labelTextColor:p.t,loopTextColor:p.t,activationBkgColor:p.s,stateBkg:p.s,stateLabelColor:p.t,altBackground:p.s,fontSize:'15px'},
+   themeCSS:'.node rect,.node circle,.node polygon,.node path,.cluster rect{stroke-width:1.6px}',
+   flowchart:{useMaxWidth:false,htmlLabels:true},
+   sequence:{useMaxWidth:false,wrap:true,width:200,actorMargin:60,noteMargin:12,messageMargin:36}});
+  var SL=[['#f4f2ec',''],['#e6e3d9','8 4'],['#d8d5ca',''],['#eceae2','2 4'],['#cdc9bc','10 3 2 3'],['#e0ded5','4 3']];
+  var SD=[['#262a30',''],['#2e333a','8 4'],['#363b43',''],['#2a2e35','2 4'],['#3d424b','10 3 2 3'],['#323740','4 3']];
+  var NAMED={CUST:0,CUSTOMER:0,MERCH:1,CLOUD:2,ADMIN:3,LOCAL:4,PEOPLE:0,PHYS:5};
+  function styleAll(){
+   var pal=dark?SD:SL,stroke=dark?'#b9b6ac':'#4a463e';
+   document.querySelectorAll('.mermaid svg').forEach(function(svg){
+    var n=0;
+    svg.querySelectorAll('g.cluster').forEach(function(g){
+     var r=g.querySelector('rect');if(!r)return;
+     var id=(g.id||'').replace(/^flowchart-/,'').replace(/-\d+$/,'');
+     var k=NAMED.hasOwnProperty(id)?NAMED[id]:(n++)%pal.length;
+     r.style.fill=pal[k][0];r.style.stroke=stroke;r.style.strokeWidth='2px';r.style.strokeDasharray=pal[k][1];
+    });
+    svg.querySelectorAll('g.node').forEach(function(g){
+     if(/FUTURE|FALLBACK/.test(g.textContent)){var r=g.querySelector('rect,polygon,path');if(r){r.style.strokeDasharray='6 3'}}
+    });
+   });
+   var d40=document.querySelector('#d40 svg');
+   if(d40){
+    var R=[[/^Customer/,dark?'#262a30':'#f4f2ec',''],[/^Platform/,dark?'#363b43':'#d8d5ca',''],[/^(Shop|Staff)/,dark?'#2e333a':'#e6e3d9','8 4'],[/^Print Station/,dark?'#3d424b':'#cdc9bc','2 3']];
+    d40.querySelectorAll('g.node').forEach(function(g){
+     var t=g.textContent.trim(),r=g.querySelector('rect,polygon,path');if(!r)return;
+     R.forEach(function(x){if(x[0].test(t)){r.style.fill=x[1];r.style.strokeDasharray=x[2];r.style.strokeWidth='2px'}});
+    });
+   }
+  }
+  mermaid.run({querySelector:'pre.mermaid'}).then(styleAll).catch(function(e){console.error(e)});
+ }catch(e){console.error(e)}
+})();
+</script>
+<script>
+(function(){
+ var toc=document.getElementById('toc'),lay=document.getElementById('layout'),bd=document.getElementById('backdrop');
+ function mob(){return window.innerWidth<=1000}
+ function openM(o){toc.classList.toggle('open',o);bd.classList.toggle('on',o)}
+ document.getElementById('menu-btn').addEventListener('click',function(){
+  if(mob()){openM(!toc.classList.contains('open'))}
+  else{var c=lay.classList.toggle('collapsed');try{localStorage.setItem('pp-toc',c?'0':'1')}catch(e){}}
+ });
+ document.getElementById('toc-close').addEventListener('click',function(){openM(false)});
+ bd.addEventListener('click',function(){openM(false)});
+ toc.addEventListener('click',function(e){if(e.target.closest('a')&&mob())openM(false)});
+ try{if(!mob()&&localStorage.getItem('pp-toc')==='0')lay.classList.add('collapsed')}catch(e){}
+ var links={};toc.querySelectorAll('a[href^="#"]').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+ var cur=null;
+ function setActive(id){if(!links[id]||cur===id)return;if(cur&&links[cur])links[cur].classList.remove('active');cur=id;links[id].classList.add('active');
+  if(!mob()){var r=links[id].getBoundingClientRect(),t=toc.getBoundingClientRect();if(r.top<t.top+40||r.bottom>t.bottom-20)links[id].scrollIntoView({block:'center'})}}
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setActive(e.target.id)})},{rootMargin:'-70px 0px -65% 0px'});
+  Object.keys(links).forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el)});
+ }
+})();
+</script>
+</body></html>
